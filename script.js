@@ -1,74 +1,100 @@
 let rounds = 0;
+let compWins = 0;
+let humanWins = 0;
+
+const round = document.querySelector('.rounds');
+round.textContent = `Round: ${rounds}`;
+
+const cpWins = document.querySelector('.compWins');
+cpWins.textContent = `Computer wins: ${compWins}`;
+
+const plWins = document.querySelector('.humanWins');
+plWins.textContent = `Human wins: ${humanWins}`;
+
+const container = document.querySelector('#container');
+const content = document.createElement('div');
+content.style.textAlign = "center";
+container.appendChild(content);
 
 function computerPlay(){
     let sign = ['Rock', 'Paper', 'Scissors'];
     return sign[Math.floor(Math.random() * 10) % sign.length];
 }
 
+function checkWinner(){
+    if(compWins === 5){
+        content.textContent = `Computer wins! ${compWins}-${humanWins}`;
+        resetScore();
+    }else if(humanWins === 5){
+        content.textContent = `Human wins! ${humanWins}-${compWins}`;
+        resetScore();
+    }
+}
+
+function resetScore() {
+    rounds = 0;
+    compWins = 0;
+    humanWins = 0;
+    round.textContent = `Round: ${rounds}`;
+    cpWins.textContent = `Computer wins: ${compWins}`;
+    plWins.textContent = `Human wins: ${humanWins}`;
+}
+
 function playRoundRock(){
     let player = 'ROCK';
     let computer = computerPlay().toUpperCase();
     if(computer === 'SCISSORS'){
-        console.log('human');
+        humanWins++;
+        plWins.textContent = `Human wins: ${humanWins}`;
+        content.textContent = 'Computer chooses scissors! You win!';
     }else if(computer === 'PAPER'){
-        console.log('computer');
+        compWins++;
+        cpWins.textContent = `Computer wins: ${compWins}`;
+        content.textContent = 'Computer chooses paper! Computer wins!';
     }else if(computer === 'ROCK'){
-        console.log('draw'); 
+        content.textContent = 'Computer chooses rock! Draw!';
     }
+    rounds++;
+    round.textContent = `Round: ${rounds}`;
+    checkWinner();
 }
 
 function playRoundPaper(){
     let player = 'PAPER';
     let computer = computerPlay().toUpperCase();
     if(computer === 'SCISSORS'){
-        console.log('computer');
+        compWins++;
+        cpWins.textContent = `Computer wins: ${compWins}`;
+        content.textContent = 'Computer chooses scissors! Computer wins!';
     }else if(computer === 'PAPER'){
-        console.log('draw');
+        content.textContent = 'Computer chooses paper! Draw!';
     }else if(computer === 'ROCK'){
-        console.log('human'); 
+        humanWins++;
+        plWins.textContent = `Human wins: ${humanWins}`;
+        content.textContent = 'Computer chooses rock! You win!';
     }
+    rounds++;
+    round.textContent = `Round: ${rounds}`;
+    checkWinner();
 }
 
 function playRoundScissors(){
     let player = 'SCISSORS';
     let computer = computerPlay().toUpperCase();
     if(computer === 'SCISSORS'){
-        console.log('draw');
+        content.textContent = 'Computer chooses scissors! Draw!';
     }else if(computer === 'PAPER'){
-        console.log('human');
+        humanWins++;
+        plWins.textContent = `Human wins: ${humanWins}`;
+        content.textContent = 'Computer chooses paper! You win!';
     }else if(computer === 'ROCK'){
-        console.log('computer'); 
+        compWins++;
+        cpWins.textContent = `Computer wins: ${compWins}`;
+        content.textContent = 'Computer chooses rock! Computer wins!'; 
     }
-}
-
-
-
-
-
-function game(){
-    let playerWins = 0;
-    let computerWins = 0;
-    for(i = 0; i < 5; i++){
-        let player = window.prompt('Choose Paper, Rock or Scissors!');
-        let computer = computerPlay();
-        let winner = playRound(player, computer);
-        if(winner === 0){
-            console.log(`You win! ${player} beats ${computer}!`);
-            playerWins++;
-        }else if(winner === 1){
-            console.log(`You lose! ${computer} beats ${player}!`);
-            computerWins++;
-        }else if(winner === 2){
-            console.log(`Draw! ${player} against ${computer}!`);
-        }
-    }
-    if(playerWins > computerWins){
-        console.log(`You won! ${playerWins} against ${computerWins}.`);
-    }else if(playerWins < computerWins){
-        console.log(`You lost! ${playerWins} against ${computerWins}.`);
-    }else if(playerWins === computerWins){
-        console.log(`Draw! ${playerWins} against ${computerWins}.`);
-    }
+    rounds++;
+    round.textContent = `Round: ${rounds}`;
+    checkWinner();
 }
 
 const btnRock = document.querySelector('.rock');
@@ -79,6 +105,3 @@ btnPaper.addEventListener('click', playRoundPaper);
 
 const btnScissors = document.querySelector('.scissors');
 btnScissors.addEventListener('click',playRoundScissors);
-
-
-
